@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pendaftaran Family Camp 5</title>
+  <title>Pendaftaran FAMILI CAMP 5 - IKAPALAM</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -15,7 +15,7 @@
       <div class="flex items-center gap-4 md:gap-5">
         <!-- Logo Kiri Atas -->
         <div class="flex-shrink-0">
-          <img src="logo.png" alt="Logo Family Camp 5" 
+          <img src="logo.png" alt="Logo Famili Camp 5" 
                class="w-20 h-20 md:w-24 md:h-24 object-contain rounded-xl bg-white/60 p-1 border border-[#EAC850] shadow-sm">
         </div>
 
@@ -24,7 +24,7 @@
           <span class="inline-block bg-[#F8E382] text-slate-900 text-xs px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold mb-1 border border-[#EAC850]">
             Formulir Resmi
           </span>
-          <h1 class="text-2xl md:text-3xl font-black tracking-tight text-slate-950 leading-tight">FAMILY CAMP 5</h1>
+          <h1 class="text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-slate-950 leading-tight">FAMILI CAMP 5 - IKAPALAM</h1>
           <p class="text-slate-800 text-xs md:text-sm mt-0.5 font-medium">Registrasi Peserta & Rincian Estimasi Biaya</p>
         </div>
       </div>
@@ -119,104 +119,4 @@
       <div class="pt-4 border-t border-slate-200">
         <p class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Informasi Rincian Komponen Tarif:</p>
         <ul class="text-xs text-slate-700 space-y-1.5 list-disc list-inside bg-[#FFFDF0] p-3.5 rounded-lg border border-[#F3E7AA]">
-          <li><span class="font-semibold text-slate-900">HTM per Orang:</span> Rp 20.000</li>
-          <li><span class="font-semibold text-slate-900">Ngabotram per Orang:</span> Rp 15.000</li>
-          <li><span class="font-semibold text-slate-900">Biaya kegiatan dan acara per Keluarga:</span> Rp 25.000</li>
-          <li><span class="font-semibold text-slate-900">Biaya Sewa Parkir Motor:</span> Rp 55.000</li>
-          <li><span class="font-semibold text-slate-900">Biaya Sewa Parkir Mobil:</span> Rp 80.000</li>
-          <li><span class="font-semibold text-slate-900">Transportasi Tronton per Orang:</span> Rp 60.000</li>
-        </ul>
-      </div>
-
-    </form>
-  </div>
-
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZ_0WgePuUQirHq16aclh1D1bbLF52uLBofloDQjXL1ATZ2nYGYo1bWawSn3pIRzroqQ/exec";
-
-    const TARIF_PER_ORANG = 35000;
-    const TARIF_ACARA = 25000;
-
-    let calculatedTotal = 0;
-
-    function hitungTotal() {
-      const dewasa = parseInt(document.getElementById('dewasa').value) || 0;
-      const anak = parseInt(document.getElementById('anak').value) || 0;
-      const totalOrang = Math.max(1, dewasa + anak);
-      
-      const transportType = document.getElementById('transportasi').value;
-      let biayaTransport = 0;
-
-      if (transportType === "Mobil") {
-        biayaTransport = 80000;
-      } else if (transportType === "Motor") {
-        biayaTransport = 55000;
-      } else if (transportType === "Tronton") {
-        biayaTransport = totalOrang * 60000;
-      } else {
-        biayaTransport = 0;
-      }
-
-      const biayaPerOrang = totalOrang * TARIF_PER_ORANG;
-      calculatedTotal = biayaPerOrang + TARIF_ACARA + biayaTransport;
-
-      document.getElementById('lblTotalOrang').innerText = totalOrang;
-      document.getElementById('subtotalPerOrang').innerText = "Rp " + biayaPerOrang.toLocaleString('id-ID');
-      document.getElementById('lblTransport').innerText = transportType;
-      document.getElementById('subtotalTransport').innerText = "Rp " + biayaTransport.toLocaleString('id-ID');
-      document.getElementById('totalText').innerText = "Rp " + calculatedTotal.toLocaleString('id-ID');
-    }
-
-    document.querySelectorAll('.calc-trigger').forEach(el => {
-      el.addEventListener('input', hitungTotal);
-      el.addEventListener('change', hitungTotal);
-    });
-
-    hitungTotal();
-
-    document.getElementById('campForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const btn = document.getElementById('btnSubmit');
-      const status = document.getElementById('statusMessage');
-
-      btn.disabled = true;
-      btn.innerText = "Mengirim data ke sistem...";
-      status.className = "hidden";
-
-      const payload = {
-        nama: document.getElementById('nama').value.trim(),
-        whatsapp: document.getElementById('whatsapp').value.trim(),
-        dewasa: document.getElementById('dewasa').value,
-        anak: document.getElementById('anak').value,
-        transportasi: document.getElementById('transportasi').value,
-        totalBiaya: calculatedTotal,
-        catatan: document.getElementById('catatan').value.trim()
-      };
-
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        status.textContent = "Alhamdulillah! Pendaftaran berhasil dikirim. Panitia akan segera menghubungi via WhatsApp.";
-        status.className = "text-center p-3 rounded-lg font-bold text-sm bg-[#FFF8D6] text-slate-900 block border border-[#E9D163]";
-        document.getElementById('campForm').reset();
-        document.getElementById('dewasa').value = 1;
-        document.getElementById('anak').value = 0;
-        hitungTotal();
-
-      } catch (err) {
-        status.textContent = "Mohon maaf, terjadi kendala saat mengirim. Silakan periksa koneksi Anda dan coba lagi.";
-        status.className = "text-center p-3 rounded-lg font-bold text-sm bg-red-100 text-red-900 block border border-red-300";
-      } finally {
-        btn.disabled = false;
-        btn.innerText = "Kirim Pendaftaran";
-      }
-    });
-  </script>
-</body>
-</html>
+          <li><span class="font-semibold text-slate-900">HTM per Orang:</span> Rp
