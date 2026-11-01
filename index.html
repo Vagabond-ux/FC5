@@ -81,20 +81,29 @@
                   class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition"></textarea>
       </div>
 
-      <!-- Rincian Biaya (Breakdown) - Dijamin 1 Baris di HP & Laptop -->
+      <!-- Rincian Biaya (Breakdown) - 1 Baris di HP & Laptop -->
       <div class="bg-[#FFFDF2] border border-[#F7E7A1] rounded-xl p-3.5 sm:p-4 space-y-2 text-slate-900">
         <p class="font-bold text-slate-900 text-[11px] sm:text-xs uppercase tracking-wider mb-2">Rincian Perhitungan Biaya</p>
         
+        <!-- Row 1: HTM per Orang -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
-          <span class="text-slate-700 truncate">HTM + Ngabotram (<span id="lblTotalOrang">1</span> org × 35rb):</span>
-          <span id="subtotalPerOrang" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 35.000</span>
+          <span class="text-slate-700 truncate">HTM per Orang (<span id="lblOrangHtm">1</span> org × 20rb):</span>
+          <span id="subtotalHtm" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 20.000</span>
         </div>
 
+        <!-- Row 2: Ngabotram per Orang -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
-          <span class="text-slate-700 truncate">Biaya Acara & Doorprize:</span>
+          <span class="text-slate-700 truncate">Ngabotram per Orang (<span id="lblOrangLiwet">1</span> org × 25rb):</span>
+          <span id="subtotalNgabotram" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 25.000</span>
+        </div>
+
+        <!-- Row 3: Biaya Acara & Doorprize per Keluarga -->
+        <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
+          <span class="text-slate-700 truncate">Biaya Acara & Doorprize (per keluarga):</span>
           <span class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 25.000</span>
         </div>
 
+        <!-- Row 4: Transportasi -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
           <span class="text-slate-700 truncate">Transportasi (<span id="lblTransport">Mobil</span>):</span>
           <span id="subtotalTransport" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 80.000</span>
@@ -102,9 +111,10 @@
 
         <hr class="border-[#F3DD75] my-2">
 
+        <!-- Total Tagihan -->
         <div class="flex items-center justify-between text-sm sm:text-base font-black text-slate-950 pt-0.5 gap-2">
           <span>Total Tagihan:</span>
-          <span id="totalText" class="text-base sm:text-lg flex-shrink-0 whitespace-nowrap">Rp 140.000</span>
+          <span id="totalText" class="text-base sm:text-lg flex-shrink-0 whitespace-nowrap">Rp 150.000</span>
         </div>
       </div>
 
@@ -117,7 +127,7 @@
       <!-- Pesan Notifikasi -->
       <div id="statusMessage" class="hidden text-center p-3 rounded-lg font-bold text-xs sm:text-sm"></div>
 
-      <!-- Detail Biaya di Bagian Bawah - Dijamin 1 Baris di HP & Laptop -->
+      <!-- Detail Biaya di Bagian Bawah -->
       <div class="pt-4 border-t border-slate-200">
         <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Informasi Rincian Komponen Tarif:</p>
         <div class="bg-[#FFFDF0] p-3 sm:p-3.5 rounded-lg border border-[#F3E7AA] space-y-1.5 text-[11px] sm:text-xs">
@@ -129,11 +139,11 @@
 
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
             <span class="text-slate-700 truncate">• Ngabotram per Orang</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 15.000</span>
+            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 25.000</span>
           </div>
 
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
-            <span class="text-slate-700 truncate">• Biaya kegiatan/acara (Keluarga)</span>
+            <span class="text-slate-700 truncate">• Biaya kegiatan/acara (per Keluarga)</span>
             <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 25.000</span>
           </div>
 
@@ -161,8 +171,10 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZ_0WgePuUQirHq16aclh1D1bbLF52uLBofloDQjXL1ATZ2nYGYo1bWawSn3pIRzroqQ/exec";
 
-    const TARIF_PER_ORANG = 35000;
-    const TARIF_ACARA = 25000;
+    // Komponen Tarif
+    const TARIF_HTM = 20000;       // per orang
+    const TARIF_NGABOTRAM = 25000; // per orang
+    const TARIF_ACARA = 25000;     // per keluarga
 
     let calculatedTotal = 0;
 
@@ -179,18 +191,25 @@
       } else if (transportType === "Motor") {
         biayaTransport = 55000;
       } else if (transportType === "Tronton") {
-        biayaTransport = totalOrang * 80000;
+        biayaTransport = totalOrang * 80000; // Update: Rp 80.000 / orang
       } else {
         biayaTransport = 0;
       }
 
-      const biayaPerOrang = totalOrang * TARIF_PER_ORANG;
-      calculatedTotal = biayaPerOrang + TARIF_ACARA + biayaTransport;
+      const subtotalHtm = totalOrang * TARIF_HTM;
+      const subtotalNgabotram = totalOrang * TARIF_NGABOTRAM;
+      calculatedTotal = subtotalHtm + subtotalNgabotram + TARIF_ACARA + biayaTransport;
 
-      document.getElementById('lblTotalOrang').innerText = totalOrang;
-      document.getElementById('subtotalPerOrang').innerText = "Rp " + biayaPerOrang.toLocaleString('id-ID');
+      // Update Tampilan Rincian (Tetap 1 Baris di HP)
+      document.getElementById('lblOrangHtm').innerText = totalOrang;
+      document.getElementById('subtotalHtm').innerText = "Rp " + subtotalHtm.toLocaleString('id-ID');
+
+      document.getElementById('lblOrangLiwet').innerText = totalOrang;
+      document.getElementById('subtotalNgabotram').innerText = "Rp " + subtotalNgabotram.toLocaleString('id-ID');
+
       document.getElementById('lblTransport').innerText = transportType;
       document.getElementById('subtotalTransport').innerText = "Rp " + biayaTransport.toLocaleString('id-ID');
+
       document.getElementById('totalText').innerText = "Rp " + calculatedTotal.toLocaleString('id-ID');
     }
 
