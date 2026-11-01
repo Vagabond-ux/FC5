@@ -67,7 +67,7 @@
         <select id="transportasi" class="w-full border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger bg-white">
           <option value="Mobil">Mobil Pribadi (Rp 80.000 / mobil)</option>
           <option value="Motor">Sepeda Motor (Rp 55.000 / motor)</option>
-          <option value="Tronton">Tronton Bersama (Rp 60.000 / orang)</option>
+          <option value="Tronton">Tronton Bersama (Rp 80.000 / orang)</option>
           <option value="Bawa Sendiri / Lainnya">Bawa Sendiri / Lainnya (Rp 0)</option>
         </select>
       </div>
@@ -124,7 +124,7 @@
           <li><span class="font-semibold text-slate-900">Biaya kegiatan dan acara per Keluarga:</span> Rp 25.000</li>
           <li><span class="font-semibold text-slate-900">Biaya Sewa Parkir Motor:</span> Rp 55.000</li>
           <li><span class="font-semibold text-slate-900">Biaya Sewa Parkir Mobil:</span> Rp 80.000</li>
-          <li><span class="font-semibold text-slate-900">Transportasi Tronton per Orang:</span> Rp 60.000</li>
+          <li><span class="font-semibold text-slate-900">Transportasi Tronton per Orang:</span> Rp 80.000</li>
         </ul>
       </div>
 
@@ -152,7 +152,7 @@
       } else if (transportType === "Motor") {
         biayaTransport = 55000;
       } else if (transportType === "Tronton") {
-        biayaTransport = totalOrang * 60000;
+        biayaTransport = totalOrang * 80000;
       } else {
         biayaTransport = 0;
       }
