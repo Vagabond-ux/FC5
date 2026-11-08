@@ -67,15 +67,23 @@
                  class="w-full border border-slate-300 rounded-lg p-2 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger">
         </div>
       </div>
-      <p class="text-[11px] text-emerald-700 font-medium -mt-2">*Kategori Balita (&lt; 5 thn) bebas biaya HTM, makan, &amp; tronton (Rp 0).</p>
+      <p class="text-[11px] text-emerald-700 font-medium -mt-2">*Kategori Balita (&lt; 5 thn) bebas biaya HTM &amp; tronton (Rp 0).</p>
 
-      <!-- Pilihan Transportasi (Bawa Sendiri Dihapus) -->
+      <!-- Input Jumlah Tenda -->
+      <div>
+        <label class="block text-xs sm:text-sm font-bold mb-1 text-slate-900">Jumlah Tenda (Sewa Lahan)</label>
+        <input type="number" id="tenda" min="1" value="1" required
+               class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger">
+        <p class="text-[11px] text-slate-600 mt-1">Biaya sewa lahan Rp 100.000 per tenda.</p>
+      </div>
+
+      <!-- Pilihan Transportasi -->
       <div>
         <label class="block text-xs sm:text-sm font-bold mb-1 text-slate-900">Opsi Transportasi / Kendaraan</label>
         <select id="transportasi" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger bg-white">
-          <option value="Mobil">Mobil Pribadi (Rp 80.000 / mobil)</option>
-          <option value="Motor">Sepeda Motor (Rp 55.000 / motor)</option>
-          <option value="Tronton">Tronton Bersama (Rp 80.000 / orang berbayar)</option>
+          <option value="Mobil">Mobil Pribadi (Bebas / Rp 0)</option>
+          <option value="Motor">Sepeda Motor (Bebas / Rp 0)</option>
+          <option value="Tronton">Tronton Bersama (Rp 40.000 / orang berbayar)</option>
         </select>
       </div>
 
@@ -86,32 +94,32 @@
                   class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition"></textarea>
       </div>
 
-      <!-- Rincian Biaya (Breakdown) - 1 Baris Sejajar di Layar HP & Laptop -->
+      <!-- Rincian Biaya (Breakdown) -->
       <div class="bg-[#FFFDF2] border border-[#F7E7A1] rounded-xl p-3.5 sm:p-4 space-y-2 text-slate-900">
         <p class="font-bold text-slate-900 text-[11px] sm:text-xs uppercase tracking-wider mb-2">Rincian Perhitungan Biaya</p>
         
-        <!-- Row 1: HTM per Orang -->
+        <!-- Row 1: HTM Camping -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
-          <span class="text-slate-700 truncate">HTM per Orang (<span id="lblOrangHtm">1</span> org × 20rb):</span>
-          <span id="subtotalHtm" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 20.000</span>
+          <span class="text-slate-700 truncate">HTM Camping (<span id="lblOrangHtm">1</span> org × 10rb):</span>
+          <span id="subtotalHtm" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 10.000</span>
         </div>
 
-        <!-- Row 2: Ngabotram per Orang -->
+        <!-- Row 2: Biaya Sewa Lahan Tenda -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
-          <span class="text-slate-700 truncate">Ngabotram per Orang (<span id="lblOrangLiwet">1</span> org × 25rb):</span>
-          <span id="subtotalNgabotram" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 25.000</span>
+          <span class="text-slate-700 truncate">Sewa Lahan Tenda (<span id="lblJumlahTenda">1</span> tenda × 100rb):</span>
+          <span id="subtotalTenda" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 100.000</span>
         </div>
 
-        <!-- Row 3: Biaya Acara (per Keluarga) -->
+        <!-- Row 3: Biaya Acara -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
           <span class="text-slate-700 truncate">Biaya Acara (per keluarga):</span>
-          <span class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 50.000</span>
+          <span class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 34.200</span>
         </div>
 
         <!-- Row 4: Transportasi -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
           <span class="text-slate-700 truncate">Transportasi (<span id="lblTransport">Mobil</span>):</span>
-          <span id="subtotalTransport" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 80.000</span>
+          <span id="subtotalTransport" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 0</span>
         </div>
 
         <hr class="border-[#F3DD75] my-2">
@@ -119,7 +127,7 @@
         <!-- Total Tagihan -->
         <div class="flex items-center justify-between text-sm sm:text-base font-black text-slate-950 pt-0.5 gap-2">
           <span>Total Tagihan:</span>
-          <span id="totalText" class="text-base sm:text-lg flex-shrink-0 whitespace-nowrap">Rp 175.000</span>
+          <span id="totalText" class="text-base sm:text-lg flex-shrink-0 whitespace-nowrap">Rp 144.200</span>
         </div>
       </div>
 
@@ -138,13 +146,8 @@
         <div class="bg-[#FFFDF0] p-3 sm:p-3.5 rounded-lg border border-[#F3E7AA] space-y-1.5 text-[11px] sm:text-xs">
           
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
-            <span class="text-slate-700 truncate">• HTM Dewasa &amp; Anak (5-12 thn)</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 20.000 / org</span>
-          </div>
-
-          <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
-            <span class="text-slate-700 truncate">• Ngabotram Dewasa &amp; Anak (5-12 thn)</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 25.000 / org</span>
+            <span class="text-slate-700 truncate">• HTM Camping Dewasa &amp; Anak (5-12 thn)</span>
+            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 10.000 / org</span>
           </div>
 
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
@@ -153,23 +156,23 @@
           </div>
 
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
+            <span class="text-slate-700 truncate">• Biaya Sewa Lahan Tenda</span>
+            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 100.000 / tenda</span>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
             <span class="text-slate-700 truncate">• Biaya Acara (per Keluarga)</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 50.000</span>
+            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 34.200</span>
           </div>
 
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
-            <span class="text-slate-700 truncate">• Biaya Parkir Sepeda Motor</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 55.000 / motor</span>
-          </div>
-
-          <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
-            <span class="text-slate-700 truncate">• Biaya Parkir Mobil Pribadi</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 80.000 / mobil</span>
+            <span class="text-slate-700 truncate">• Transportasi Mobil / Motor Pribadi</span>
+            <span class="font-bold text-emerald-700 flex-shrink-0 whitespace-nowrap">Bebas (Rp 0)</span>
           </div>
 
           <div class="flex items-center justify-between gap-2">
             <span class="text-slate-700 truncate">• Transportasi Tronton Bersama</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 80.000 / org</span>
+            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 40.000 / org</span>
           </div>
 
         </div>
@@ -181,10 +184,10 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZ_0WgePuUQirHq16aclh1D1bbLF52uLBofloDQjXL1ATZ2nYGYo1bWawSn3pIRzroqQ/exec";
 
-    // Komponen Biaya Acuan
-    const TARIF_HTM = 20000;       // per orang berbayar
-    const TARIF_NGABOTRAM = 25000; // per orang berbayar
-    const TARIF_ACARA = 50000;     // per keluarga
+    // Komponen Biaya Acuan Skenario Baru
+    const TARIF_HTM = 10000;       // per orang berbayar
+    const TARIF_LAHAN = 100000;    // per tenda
+    const TARIF_ACARA = 34200;     // per keluarga
 
     let calculatedTotal = 0;
 
@@ -192,33 +195,30 @@
       const dewasa = parseInt(document.getElementById('dewasa').value) || 0;
       const anak = parseInt(document.getElementById('anak').value) || 0;
       const balita = parseInt(document.getElementById('balita').value) || 0;
+      const tenda = parseInt(document.getElementById('tenda').value) || 1;
       
-      // Yang kena biaya HTM, Ngabotram, dan Tronton hanya Dewasa + Anak (5-12 thn)
+      // Yang kena biaya HTM dan Tronton hanya Dewasa + Anak (5-12 thn)
       const orangBerbayar = dewasa + anak;
       
       const transportType = document.getElementById('transportasi').value;
       let biayaTransport = 0;
 
-      if (transportType === "Mobil") {
-        biayaTransport = 80000;
-      } else if (transportType === "Motor") {
-        biayaTransport = 55000;
-      } else if (transportType === "Tronton") {
-        biayaTransport = orangBerbayar * 80000; // Balita gratis (dipangku)
+      if (transportType === "Tronton") {
+        biayaTransport = orangBerbayar * 40000;
       } else {
-        biayaTransport = 0;
+        biayaTransport = 0; // Mobil & Motor bebas biaya (Rp 0)
       }
 
       const subtotalHtm = orangBerbayar * TARIF_HTM;
-      const subtotalNgabotram = orangBerbayar * TARIF_NGABOTRAM;
-      calculatedTotal = subtotalHtm + subtotalNgabotram + TARIF_ACARA + biayaTransport;
+      const subtotalTenda = tenda * TARIF_LAHAN;
+      calculatedTotal = subtotalHtm + subtotalTenda + TARIF_ACARA + biayaTransport;
 
       // Update Tampilan Rincian Biaya
       document.getElementById('lblOrangHtm').innerText = orangBerbayar;
       document.getElementById('subtotalHtm').innerText = "Rp " + subtotalHtm.toLocaleString('id-ID');
 
-      document.getElementById('lblOrangLiwet').innerText = orangBerbayar;
-      document.getElementById('subtotalNgabotram').innerText = "Rp " + subtotalNgabotram.toLocaleString('id-ID');
+      document.getElementById('lblJumlahTenda').innerText = tenda;
+      document.getElementById('subtotalTenda').innerText = "Rp " + subtotalTenda.toLocaleString('id-ID');
 
       document.getElementById('lblTransport').innerText = transportType;
       document.getElementById('subtotalTransport').innerText = "Rp " + biayaTransport.toLocaleString('id-ID');
@@ -249,6 +249,7 @@
         dewasa: document.getElementById('dewasa').value,
         anak: document.getElementById('anak').value,
         balita: document.getElementById('balita').value,
+        tenda: document.getElementById('tenda').value,
         transportasi: document.getElementById('transportasi').value,
         totalBiaya: calculatedTotal,
         catatan: document.getElementById('catatan').value.trim()
@@ -268,6 +269,7 @@
         document.getElementById('dewasa').value = 1;
         document.getElementById('anak').value = 0;
         document.getElementById('balita').value = 0;
+        document.getElementById('tenda').value = 1;
         hitungTotal();
 
       } catch (err) {
