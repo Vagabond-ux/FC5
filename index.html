@@ -69,13 +69,22 @@
       </div>
       <p class="text-[11px] text-emerald-700 font-medium -mt-2">*Kategori Balita (&lt; 5 thn) bebas biaya HTM &amp; tronton (Rp 0).</p>
 
-      <!-- Input Jumlah Tenda -->
-      <div>
-        <label class="block text-xs sm:text-sm font-bold mb-1 text-slate-900">Jumlah Tenda</label>
-        <input type="number" id="tenda" min="1" value="1" required
-               class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger">
-        <p class="text-[11px] text-slate-600 mt-1">Biaya per tenda: Sewa Tenda (Rp 100rb) + Sewa Lahan (Rp 100rb) = Rp 200.000 / tenda.</p>
+      <!-- Pilihan Tipe Tenda & Jumlah Tenda -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs sm:text-sm font-bold mb-1 text-slate-900">Pilihan Tenda</label>
+          <select id="tipeTenda" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger bg-white">
+            <option value="Sewa Tenda">Sewa Tenda (Tenda + Lahan Rp 200rb)</option>
+            <option value="Bawa Sendiri">Bawa Sendiri (Lahan Rp 100rb)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs sm:text-sm font-bold mb-1 text-slate-900">Jumlah Tenda</label>
+          <input type="number" id="tenda" min="1" value="1" required
+                 class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger">
+        </div>
       </div>
+      <p id="tendaNote" class="text-[11px] text-slate-600 -mt-2">Biaya: Sewa Tenda Rp 100rb + Lahan Rp 100rb = Rp 200.000 / tenda.</p>
 
       <!-- Pilihan Transportasi -->
       <div>
@@ -104,9 +113,9 @@
           <span id="subtotalHtm" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 10.000</span>
         </div>
 
-        <!-- Row 2: Biaya Tenda (Sewa + Lahan) -->
+        <!-- Row 2: Biaya Tenda -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
-          <span class="text-slate-700 truncate">Biaya Tenda (<span id="lblJumlahTenda">1</span> tenda × 200rb):</span>
+          <span class="text-slate-700 truncate"><span id="lblJudulTenda">Sewa Tenda</span> (<span id="lblJumlahTenda">1</span> tenda):</span>
           <span id="subtotalTenda" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 200.000</span>
         </div>
 
@@ -166,7 +175,12 @@
           </div>
 
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
-            <span class="text-slate-700 truncate">• Sewa Tenda + Sewa Lahan Tenda</span>
+            <span class="text-slate-700 truncate">• Bawa Tenda Sendiri (Hanya Lahan)</span>
+            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 100.000 / tenda</span>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
+            <span class="text-slate-700 truncate">• Sewa Tenda (Tenda + Lahan)</span>
             <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 200.000 / tenda</span>
           </div>
 
@@ -197,9 +211,8 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZ_0WgePuUQirHq16aclh1D1bbLF52uLBofloDQjXL1ATZ2nYGYo1bWawSn3pIRzroqQ/exec";
 
-    // Komponen Biaya Acuan Skenario Baru
+    // Komponen Biaya Acuan
     const TARIF_HTM = 10000;       // per orang berbayar
-    const TARIF_TENDA = 200000;    // Sewa Tenda (100rb) + Sewa Lahan Tenda (100rb)
     const TARIF_ACARA = 34200;     // per keluarga
 
     let calculatedTotal = 0;
@@ -209,13 +222,25 @@
       const anak = parseInt(document.getElementById('anak').value) || 0;
       const balita = parseInt(document.getElementById('balita').value) || 0;
       const tenda = parseInt(document.getElementById('tenda').value) || 1;
+      const tipeTenda = document.getElementById('tipeTenda').value;
       
-      // Yang kena biaya HTM dan Tronton hanya Dewasa + Anak (5-12 thn)
+      // Yang dikenakan biaya HTM dan Tronton: Dewasa + Anak (5-12 thn)
       const orangBerbayar = dewasa + anak;
       
+      // Hitung Biaya Tenda sesuai pilihan
+      let tarifPerTenda = 200000; // Default Sewa Tenda
+      if (tipeTenda === "Bawa Sendiri") {
+        tarifPerTenda = 100000;
+        document.getElementById('tendaNote').innerText = "Biaya sewa kavling lahan: Rp 100.000 / tenda.";
+        document.getElementById('lblJudulTenda').innerText = "Lahan Tenda Mandiri";
+      } else {
+        tarifPerTenda = 200000;
+        document.getElementById('tendaNote').innerText = "Biaya: Sewa Tenda Rp 100rb + Lahan Rp 100rb = Rp 200.000 / tenda.";
+        document.getElementById('lblJudulTenda').innerText = "Sewa Tenda + Lahan";
+      }
+
       const transportType = document.getElementById('transportasi').value;
       let biayaTransport = 0;
-
       if (transportType === "Tronton") {
         biayaTransport = orangBerbayar * 40000;
       } else {
@@ -223,7 +248,7 @@
       }
 
       const subtotalHtm = orangBerbayar * TARIF_HTM;
-      const subtotalTenda = tenda * TARIF_TENDA;
+      const subtotalTenda = tenda * tarifPerTenda;
       calculatedTotal = subtotalHtm + subtotalTenda + TARIF_ACARA + biayaTransport;
 
       // Update Tampilan Rincian Biaya
@@ -262,6 +287,7 @@
         dewasa: document.getElementById('dewasa').value,
         anak: document.getElementById('anak').value,
         balita: document.getElementById('balita').value,
+        tipeTenda: document.getElementById('tipeTenda').value,
         tenda: document.getElementById('tenda').value,
         transportasi: document.getElementById('transportasi').value,
         totalBiaya: calculatedTotal,
