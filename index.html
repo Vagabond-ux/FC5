@@ -71,10 +71,10 @@
 
       <!-- Input Jumlah Tenda -->
       <div>
-        <label class="block text-xs sm:text-sm font-bold mb-1 text-slate-900">Jumlah Tenda (Sewa Lahan)</label>
+        <label class="block text-xs sm:text-sm font-bold mb-1 text-slate-900">Jumlah Tenda</label>
         <input type="number" id="tenda" min="1" value="1" required
                class="w-full border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-[#EAC850] focus:border-[#EAC850] outline-none transition calc-trigger">
-        <p class="text-[11px] text-slate-600 mt-1">Biaya sewa lahan Rp 100.000 per tenda.</p>
+        <p class="text-[11px] text-slate-600 mt-1">Biaya per tenda: Sewa Tenda (Rp 100rb) + Sewa Lahan (Rp 100rb) = Rp 200.000 / tenda.</p>
       </div>
 
       <!-- Pilihan Transportasi -->
@@ -104,10 +104,10 @@
           <span id="subtotalHtm" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 10.000</span>
         </div>
 
-        <!-- Row 2: Biaya Sewa Lahan Tenda -->
+        <!-- Row 2: Biaya Tenda (Sewa + Lahan) -->
         <div class="flex items-center justify-between text-xs sm:text-sm gap-2">
-          <span class="text-slate-700 truncate">Sewa Lahan Tenda (<span id="lblJumlahTenda">1</span> tenda × 100rb):</span>
-          <span id="subtotalTenda" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 100.000</span>
+          <span class="text-slate-700 truncate">Biaya Tenda (<span id="lblJumlahTenda">1</span> tenda × 200rb):</span>
+          <span id="subtotalTenda" class="font-bold text-slate-950 flex-shrink-0 whitespace-nowrap">Rp 200.000</span>
         </div>
 
         <!-- Row 3: Biaya Acara -->
@@ -127,7 +127,7 @@
         <!-- Total Tagihan -->
         <div class="flex items-center justify-between text-sm sm:text-base font-black text-slate-950 pt-0.5 gap-2">
           <span>Total Tagihan:</span>
-          <span id="totalText" class="text-base sm:text-lg flex-shrink-0 whitespace-nowrap">Rp 144.200</span>
+          <span id="totalText" class="text-base sm:text-lg flex-shrink-0 whitespace-nowrap">Rp 244.200</span>
         </div>
       </div>
 
@@ -137,7 +137,7 @@
         Kirim Pendaftaran
       </button>
 
-      <!-- Informasi Pembayaran & Kontak Tante Yulie (Baru) -->
+      <!-- Informasi Pembayaran & Kontak Tante Yulie -->
       <div class="bg-[#FFFDF5] border border-[#F5E6A3] rounded-xl p-3.5 sm:p-4 text-xs sm:text-sm text-slate-800 space-y-1.5 shadow-sm">
         <p class="leading-relaxed">
           Pembayaran dilakukan dengan transfer ke <strong class="text-slate-950">Bank Mandiri No. Rek. 1190005582018</strong> a.n. <strong class="text-slate-950">Ari Maryatman</strong>.
@@ -166,8 +166,8 @@
           </div>
 
           <div class="flex items-center justify-between gap-2 border-b border-yellow-100/60 pb-1">
-            <span class="text-slate-700 truncate">• Biaya Sewa Lahan Tenda</span>
-            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 100.000 / tenda</span>
+            <span class="text-slate-700 truncate">• Sewa Tenda + Sewa Lahan Tenda</span>
+            <span class="font-bold text-slate-900 flex-shrink-0 whitespace-nowrap">Rp 200.000 / tenda</span>
           </div>
 
           <div class="flex flex-col gap-0.5 border-b border-yellow-100/60 pb-1">
@@ -199,7 +199,7 @@
 
     // Komponen Biaya Acuan Skenario Baru
     const TARIF_HTM = 10000;       // per orang berbayar
-    const TARIF_LAHAN = 100000;    // per tenda
+    const TARIF_TENDA = 200000;    // Sewa Tenda (100rb) + Sewa Lahan Tenda (100rb)
     const TARIF_ACARA = 34200;     // per keluarga
 
     let calculatedTotal = 0;
@@ -223,7 +223,7 @@
       }
 
       const subtotalHtm = orangBerbayar * TARIF_HTM;
-      const subtotalTenda = tenda * TARIF_LAHAN;
+      const subtotalTenda = tenda * TARIF_TENDA;
       calculatedTotal = subtotalHtm + subtotalTenda + TARIF_ACARA + biayaTransport;
 
       // Update Tampilan Rincian Biaya
@@ -278,8 +278,6 @@
 
         status.textContent = "Alhamdulillah! Pendaftaran berhasil dikirim. Panitia akan segera menghubungi via WhatsApp.";
         status.className = "text-center p-3 rounded-lg font-bold text-xs sm:text-sm bg-[#FFF8D6] text-slate-900 block border border-[#E9D163]";
-        
-        // Form TIDAK di-reset agar tampilan rincian & angka total biaya tetap stabil sesuai data terakhir yang diinput
 
       } catch (err) {
         status.textContent = "Mohon maaf, terjadi kendala saat mengirim. Silakan periksa koneksi Anda dan coba lagi.";
