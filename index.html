@@ -268,12 +268,8 @@
 
         status.textContent = "Alhamdulillah! Pendaftaran berhasil dikirim. Panitia akan segera menghubungi via WhatsApp.";
         status.className = "text-center p-3 rounded-lg font-bold text-xs sm:text-sm bg-[#FFF8D6] text-slate-900 block border border-[#E9D163]";
-        document.getElementById('campForm').reset();
-        document.getElementById('dewasa').value = 1;
-        document.getElementById('anak').value = 0;
-        document.getElementById('balita').value = 0;
-        document.getElementById('tenda').value = 1;
-        hitungTotal();
+        
+        // Form TIDAK di-reset agar tampilan rincian & angka total biaya tetap stabil sesuai data terakhir yang diinput
 
       } catch (err) {
         status.textContent = "Mohon maaf, terjadi kendala saat mengirim. Silakan periksa koneksi Anda dan coba lagi.";
